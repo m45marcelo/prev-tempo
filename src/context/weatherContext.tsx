@@ -5,7 +5,7 @@ import type { WeatherCurrent, WeatherForecast } from "../types";
 interface WeatherContextProps {
 	weatherCurrent: WeatherCurrent | null;
 	weatherForecast: WeatherForecast | null;
-	searchCity: (city: string) => void;
+	searchCity: (city?: string, lat?: string, lon?: string) => void;
 }
 
 export const WeatherContext = createContext<WeatherContextProps | undefined>(
@@ -19,8 +19,8 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
 	const [weatherForecast, setWeatherForecast] =
 		useState<WeatherForecast | null>(null);
 
-	async function searchCity(city: string) {
-		if (!city.trim()) return;
+	async function searchCity(city?: string, lat?: string, lon?: string) {
+		if (!city || !lat || !lon) return;
 
 		async function searchCityCurrent(city: string) {
 			try {
@@ -41,28 +41,78 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
 			}
 		}
 
-		async function searchCityForecast(city: string) {
-			// try {
-			// 	const { data } = await axios.get<WeatherForecast>(
-			// 		`${import.meta.env.VITE_BASE_URL}forecast/daily`,
-			// 		{
-			// 			params: {
-			// 				city,
-			// 				days: 7,
-			// 				key: import.meta.env.VITE_API_KEY,
-			// 			},
-			// 		},
-			// 	);
-
-			// 	setWeatherForecast(data);
-			// } catch (error) {
-			// 	console.error("Erro ao buscar cidade:", error);
-			// }
-			console.log('.')
+		async function searchPositionCurrent(lat: string, lon: string) {
+			try {
+				const { data } = await axios.get<WeatherCurrent>(
+					`${import.meta.env.VITE_BASE_URL}current`,
+					{
+						params: {
+							lat,
+							lon,
+							lang: "pt",
+							key: import.meta.env.VITE_API_KEY,
+						},
+					},
+				);
+				console.log(data)
+				setWeatherCurrent(data);
+			} catch (error) {
+				console.error("Erro ao buscar cidade:", error);
+			}
 		}
 
-		searchCityCurrent(city);
-		searchCityForecast(city);
+		async function searchCityForecast(city: string) {
+			try {
+				const { data } = await axios.get<WeatherForecast>(
+					`${import.meta.env.VITE_BASE_URL}forecast/daily`,
+					{
+						params: {
+							city,
+							lang: "pt",
+							days: 5,
+							key: import.meta.env.VITE_API_KEY,
+						},
+					},
+				);
+				console.log(data)
+				setWeatherForecast(data);
+			} catch (error) {
+				console.error("Erro ao buscar cidade:", error);
+			}
+			
+		}
+
+		async function searchPositionForecast(lat: string, lon: string) {
+			try {
+				const { data } = await axios.get<WeatherForecast>(
+					`${import.meta.env.VITE_BASE_URL}forecast/daily`,
+					{
+						params: {
+							lat,
+							lon,
+							lang: "pt",
+							days: 5,
+							key: import.meta.env.VITE_API_KEY,
+						},
+					},
+				);
+				console.log(data)
+				setWeatherForecast(data);
+			} catch (error) {
+				console.error("Erro ao buscar cidade:", error);
+			}
+			
+		}
+
+		if(city && !lat && !lon){
+			searchCityCurrent(city);
+			searchCityForecast(city);
+		}
+		
+		if(!city && lat && lon){
+			searchPositionCurrent(lat, lon);
+			searchPositionCurrent(lat, lon);
+		}
 	}
 
 	return (

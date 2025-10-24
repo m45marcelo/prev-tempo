@@ -3,7 +3,7 @@ import imageNight from "./../../../assets/images/background-night.png";
 
 interface ContainerProps {
 	children: React.ReactNode;
-	background: "Day" | "Night";
+	background: string | undefined;
 }
 
 export const Container: React.FC<ContainerProps> = ({

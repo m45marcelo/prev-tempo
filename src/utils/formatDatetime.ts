@@ -1,7 +1,7 @@
 export function formatDatetime(
 	dateString: string | undefined,
 	timezone: string | undefined,
-) {
+): string | undefined {
 	if (!dateString || !timezone) return;
 
 	let date: Date;
@@ -22,7 +22,7 @@ export function formatDatetime(
 		minute: "2-digit",
 	});
 
-	console.log(formatter.format(date))
+	//console.log(formatter.format(date))
 
 	return formatter.format(date);
 
