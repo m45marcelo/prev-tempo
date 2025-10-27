@@ -1,6 +1,6 @@
 import { useWeather } from "../../hooks/useWeather";
 import { formatDatetime } from "../../utils/formatDatetime";
-import { getDayOfWeek } from "../../utils/getDayofWeek";
+import { getDayOfWeek } from "../../utils/getDayOfWeek";
 
 interface WeatherItemProps {
 	iconWeather: string | undefined;

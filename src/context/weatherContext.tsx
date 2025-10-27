@@ -20,7 +20,7 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
 		useState<WeatherForecast | null>(null);
 
 	async function searchCity(city?: string, lat?: string, lon?: string) {
-		if (!city || !lat || !lon) return;
+		if (!city) return;
 
 		async function searchCityCurrent(city: string) {
 			try {
@@ -69,7 +69,7 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
 						params: {
 							city,
 							lang: "pt",
-							days: 5,
+							days: 6,
 							key: import.meta.env.VITE_API_KEY,
 						},
 					},
@@ -91,7 +91,7 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
 							lat,
 							lon,
 							lang: "pt",
-							days: 5,
+							days: 6,
 							key: import.meta.env.VITE_API_KEY,
 						},
 					},

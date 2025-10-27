@@ -4,7 +4,7 @@ import humidadeIcon from "./../../../assets/icons/humidity.svg";
 import ventoIcon from "./../../../assets/icons/wind.svg";
 import { useWeather } from "../../../hooks/useWeather";
 import { selectIconWeather } from "../../../utils/selectIconWeather";
-import { WeatherItem } from "../../ui/weatherItem";
+import { WeatherItem } from "../../ui/WeatherItem";
 
 
 export const Main = () => {

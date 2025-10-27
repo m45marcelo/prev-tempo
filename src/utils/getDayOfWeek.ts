@@ -1,7 +1,8 @@
 export function getDayOfWeek(dateString: string): string {
-	const date = new Date(dateString);
+	const [year, month, day] = dateString.split("-").map(Number);
+	const date = new Date(year, month - 1, day);
 
-	const daysOfWeek: string[] = [
+	const daysOfWeek = [
 		"domingo",
 		"segunda-feira",
 		"terça-feira",
@@ -11,9 +12,5 @@ export function getDayOfWeek(dateString: string): string {
 		"sábado",
 	];
 
-	const dayIndex: number = date.getDay();
-	return daysOfWeek[dayIndex];
+	return daysOfWeek[date.getDay()];
 }
-
-// Exemplo de uso:
-console.log(getDayOfWeek("2025-09-12")); // "sexta-feira"
